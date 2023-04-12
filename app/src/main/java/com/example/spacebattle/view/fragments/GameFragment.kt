@@ -20,9 +20,10 @@ import com.example.spacebattle.viewmodels.GameViewModel
 
 class GameFragment : Fragment() {
 
-    private lateinit var binding: FragmentGameBinding
-    private val viewModel: GameViewModel by activityViewModels()
-
+    /*private lateinit var binding: FragmentGameBinding
+    private val viewModel: GameViewModel by activityViewModels()*/
+    lateinit var fireButton: Button
+    lateinit var gameView: GameView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,10 +31,10 @@ class GameFragment : Fragment() {
         val display = requireActivity().windowManager.defaultDisplay
         val size = Point()
         display.getSize(size)
-        val gameView = GameView(requireContext(), size)
+        gameView = GameView(requireContext(), size)
         val game: FrameLayout = FrameLayout(requireContext())
         val gameButtons: RelativeLayout = RelativeLayout(requireContext())
-        val fireButton: Button = Button(requireContext());
+        fireButton = Button(requireContext());
         fireButton.text = "Fire"
         fireButton.setBackgroundColor(Color.RED)
         val b1 = RelativeLayout.LayoutParams(
@@ -58,11 +59,11 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO not recognize the elements of layout
-        /*fireButton.setOnClickListener {
+        fireButton.setOnClickListener {
             gameView.shot()
-        }*/
+        }
     }
+
 
 
 }

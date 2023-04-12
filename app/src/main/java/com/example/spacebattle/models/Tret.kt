@@ -13,16 +13,14 @@ class Tret(context: Context, screenX: Int, screenY: Int, positionX: Int, positio
     val height = screenY / 10f
     var positionX = positionX
     var positionY = positionY
-    var speed = 8
+    var speed = 100
 
     init{
         bitmap = Bitmap.createScaledBitmap(bitmap, width.toInt(), height.toInt(),false)
     }
 
     fun updateElement(){
-        //positionX += speed
-        //TODO it does not change the position
-        positionY += speed
+        positionY -= speed
     }
 
 

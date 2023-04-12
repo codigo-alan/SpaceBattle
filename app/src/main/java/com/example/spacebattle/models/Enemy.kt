@@ -10,7 +10,7 @@ class Enemy(context: Context, screenX: Int, screenY: Int, drawableImage: Int, sp
     val width = screenX / 10f
     val height = screenY / 10f
     var positionX : Int
-    var positionY = screenY / 2
+    var positionY = 0
     var speed = speed
 
     init{
@@ -19,9 +19,7 @@ class Enemy(context: Context, screenX: Int, screenY: Int, drawableImage: Int, sp
     }
 
     fun updateElement(){
-        //positionX += speed
-        //TODO it does not change the position
-        positionY -= speed
+        positionY += speed
     }
 
 

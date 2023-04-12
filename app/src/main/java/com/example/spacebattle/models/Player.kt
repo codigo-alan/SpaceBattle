@@ -10,14 +10,18 @@ class Player (context: Context, screenX: Int, screenY: Int, drawableImage: Int) 
     val width = screenX / 10f
     val height = screenY / 10f
     var positionX = screenX / 2
-    var speed = 5
+    var speed = 20
 
     init{
         bitmap = Bitmap.createScaledBitmap(bitmap, width.toInt(), height.toInt(),false)
     }
 
-    fun updateElement(){
-        positionX += speed
+    fun updateElement(direction: PlayerMoves) {
+        when (direction){
+            PlayerMoves.RIGHT -> positionX += speed
+            PlayerMoves.LEFT -> positionX -= speed
+        }
+
     }
 
 
