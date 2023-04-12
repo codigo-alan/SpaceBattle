@@ -10,7 +10,7 @@ class Player (context: Context, screenX: Int, screenY: Int, drawableImage: Int) 
     val width = screenX / 10f
     val height = screenY / 10f
     var positionX = screenX / 2
-    var speed = 0
+    var speed = 5
 
     init{
         bitmap = Bitmap.createScaledBitmap(bitmap, width.toInt(), height.toInt(),false)
@@ -20,4 +20,6 @@ class Player (context: Context, screenX: Int, screenY: Int, drawableImage: Int) 
         positionX += speed
     }
 
+
 }
+
