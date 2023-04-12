@@ -91,8 +91,6 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
         if (event != null) {
             when(event.action){
                 MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
-
-                    //TODO the view of moves is not properly
                     if(event.x > player.positionX){
                         player.updateElement(PlayerMoves.RIGHT)
                     }
@@ -100,7 +98,6 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
                         player.updateElement(PlayerMoves.LEFT)
                     }
                 }
-
             }
         }
         return true
