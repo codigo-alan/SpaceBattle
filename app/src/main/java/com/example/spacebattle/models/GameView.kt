@@ -48,9 +48,9 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     private fun startGame(){
         CoroutineScope(Dispatchers.Main).launch{
             while(totalEnemies >= 0){
-                verifyCollisions()
                 deleteEnemies()
                 addEnemies()
+                verifyCollisions()
                 draw()
                 update()
                 delay(10)
