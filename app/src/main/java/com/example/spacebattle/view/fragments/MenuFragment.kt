@@ -28,7 +28,6 @@ class MenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //TODO here the logic of this fragment
 
         binding.startBtn.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_gameFragment)

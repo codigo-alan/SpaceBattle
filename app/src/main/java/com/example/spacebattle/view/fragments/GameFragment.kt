@@ -3,7 +3,6 @@ package com.example.spacebattle.view.fragments
 import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,18 +13,16 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.spacebattle.R
-import com.example.spacebattle.databinding.FragmentGameBinding
 import com.example.spacebattle.models.GameView
 import com.example.spacebattle.viewmodels.GameViewModel
 
 
 class GameFragment : Fragment() {
 
-    /*private lateinit var binding: FragmentGameBinding
-    private val viewModel: GameViewModel by activityViewModels()*/
+    private val viewModel: GameViewModel by activityViewModels()
     lateinit var fireButton: Button
     lateinit var exitButton: Button
-    lateinit var gameView: GameView
+    //lateinit var gameView: GameView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +30,9 @@ class GameFragment : Fragment() {
         val display = requireActivity().windowManager.defaultDisplay
         val size = Point()
         display.getSize(size)
-        gameView = GameView(requireContext(), size)
+        //instanciate a GameView in viewModel
+        viewModel.initializeGameView(requireContext(), size)
+
         //FrameLayout
         val game: FrameLayout = FrameLayout(requireContext())
         //Layout
@@ -67,7 +66,7 @@ class GameFragment : Fragment() {
         b2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE)
         fireButton.layoutParams = b1
         exitButton.layoutParams = b2
-        game.addView(gameView)
+        game.addView(viewModel.gameView)
         game.addView(gameButtons)
 
         return game
@@ -76,12 +75,12 @@ class GameFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fireButton.setOnClickListener {
-            gameView.shot()
+            viewModel.gameView.shot()
         }
         exitButton.setOnClickListener {
             findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
-        gameView.playing.observe(viewLifecycleOwner){
+        viewModel.gameView.playing.observe(viewLifecycleOwner){
             if (!it) findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
     }

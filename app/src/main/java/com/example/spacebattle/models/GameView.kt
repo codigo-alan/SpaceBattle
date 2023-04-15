@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.view.MotionEvent
 import android.view.SurfaceView
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.spacebattle.R
 import kotlinx.coroutines.CoroutineScope
@@ -16,9 +17,12 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     var canvas: Canvas = Canvas()
     val paint: Paint = Paint()
     var playing = MutableLiveData<Boolean>().apply { true }
-    var miVar : Boolean = true
-    var totalEnemies = 10
-    var score = 0
+    val totalTrets = 20
+    var tretsMades = 0
+    var enemyDown = 0
+    var totalEnemies = 0
+    val lostEnemies get() = totalEnemies - enemyDown
+    var score: Double = 0.0
     val enemies = mutableListOf<Enemy>()
     val player = Player(context, size.x, size.y, R.drawable.player)
     var tret : Tret? = null
@@ -36,7 +40,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
                     val randomEnemyImage = listOf<Int>(R.drawable.enemybabylon, R.drawable.enemybabylon2, R.drawable.enemyvulcans).random()
                     val enemy = Enemy(context, size.x, size.y, randomEnemyImage, randomSpeed)
                     enemies.add(enemy)
-                    totalEnemies --
+                    totalEnemies++
                 }
             }
         }
@@ -47,7 +51,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
 
     private fun startGame(){
         CoroutineScope(Dispatchers.Main).launch{
-            while(totalEnemies >= 0){
+            while(totalEnemies <= 10){
                 deleteEnemies()
                 addEnemies()
                 verifyCollisions()
@@ -56,6 +60,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
                 delay(10)
                 if (!player.keepAlive) break
             }
+            score = (enemyDown.toDouble() / (lostEnemies+1))
             playing.postValue(false)
         }
     }
@@ -85,7 +90,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
             if(RectF.intersects(positionEnemy, positionTret)){
                 enemy.kill()
                 tret = null
-                score ++
+                enemyDown++
             }
         }
 
@@ -102,7 +107,8 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
             paint.color = Color.YELLOW
             paint.textSize = 60f
             paint.textAlign = Paint.Align.LEFT
-            canvas.drawText("Score: $score", 10f, 75f, paint)
+            canvas.drawText("Asserted: $enemyDown", 10f, 75f, paint)
+            canvas.drawText("Left shots: ${totalTrets - tretsMades}", 10f, 150f, paint)
             //ENEMY
             enemies.forEach {enemy ->
                 canvas.drawBitmap(enemy.bitmap, enemy.positionX.toFloat(),enemy.positionY.toFloat(), null)
@@ -123,7 +129,12 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     }
 
     fun shot(){
-        tret = Tret(context,size.x, size.y, player.positionX, (size.y - player.height - 250f).toInt())
+        if (tretsMades < totalTrets) {
+            tret = Tret(context,size.x, size.y, player.positionX, (size.y - player.height - 250f).toInt())
+            tretsMades++
+        } else {
+            Toast.makeText(context,"Not enough munitions!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {

@@ -9,14 +9,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.spacebattle.R
 import com.example.spacebattle.databinding.FragmentResultBinding
+import com.example.spacebattle.viewmodels.GameViewModel
 import com.example.spacebattle.viewmodels.ResultViewModel
 
 
 class ResultFragment : Fragment() {
 
-
     private lateinit var binding: FragmentResultBinding
-    private val viewModel: ResultViewModel by activityViewModels()
+    private val viewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,11 +30,12 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //TODO here the logic of this fragment
-
         binding.menuBtn.setOnClickListener {
             findNavController().navigate(R.id.action_resultFragment_to_menuFragment)
         }
+        binding.scoreTv.text = viewModel.gameView.score.toString()
+        binding.lostEnemiesTv.text = viewModel.gameView.lostEnemies.toString()
+        binding.tretsMadeTv.text = viewModel.gameView.tretsMades.toString()
 
     }
 
