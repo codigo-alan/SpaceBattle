@@ -71,7 +71,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
                 delay(10)
                 if (!player.keepAlive) break
             }
-            score = (enemyDown.toDouble() / (lostEnemies+1))
+            score = enemyDown.toDouble() / (lostEnemies+1)
             playing.postValue(false)
         }
     }
