@@ -2,6 +2,7 @@ package com.example.spacebattle.models
 
 import android.content.Context
 import android.graphics.*
+import android.media.MediaPlayer
 import android.view.MotionEvent
 import android.view.SurfaceView
 import android.widget.Toast
@@ -27,6 +28,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     val enemies = mutableListOf<Enemy>()
     val player = Player(context, size.x, size.y, R.drawable.player)
     var tret : Tret? = null
+    var mediaPlayer: MediaPlayer? = MediaPlayer.create(context, R.raw.imperial_march)
 
     init {
         startGame()
@@ -52,6 +54,10 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
 
     private fun startGame(){
         CoroutineScope(Dispatchers.Main).launch{
+            mediaPlayer?.start()
+            mediaPlayer?.setOnCompletionListener {
+                mediaPlayer?.start()
+            }
             while(totalEnemies <= 10){
                 deleteEnemies()
                 addEnemies()
@@ -87,11 +93,13 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
             }
             if(RectF.intersects(positionEnemy, positionPlayer)){
                 player.kill()
+                //TODO add explode with soundPool
             }
             if(RectF.intersects(positionEnemy, positionTret)){
                 enemy.kill()
                 tret = null
                 enemyDown++
+                //TODO add explode with soundPool
             }
         }
 

@@ -12,4 +12,8 @@ class GameViewModel : ViewModel() {
         gameView = GameView(requireContext, size)
     }
 
+    fun stopMediaPlayer(){
+        gameView.mediaPlayer?.stop()
+    }
+
 }
