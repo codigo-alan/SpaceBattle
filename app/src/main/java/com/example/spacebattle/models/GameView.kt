@@ -2,7 +2,9 @@ package com.example.spacebattle.models
 
 import android.content.Context
 import android.graphics.*
+import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.media.SoundPool
 import android.view.MotionEvent
 import android.view.SurfaceView
 import android.widget.Toast
@@ -30,10 +32,13 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     var tret : Tret? = null
     var mediaPlayer: MediaPlayer? = MediaPlayer.create(context, R.raw.imperial_march)
 
+    private val soundPool = createSoundPool()
+    private val explodeSound = soundPool.load(context, R.raw.explode, 0)
+    private val shotSound = soundPool.load(context, R.raw.shot, 0)
+
     init {
         startGame()
     }
-
     private fun addEnemies() {
 
         if (enemies.size < 5) {
@@ -51,7 +56,6 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     private fun deleteEnemies() {
         enemies.removeIf { (it.positionY >= size.y) || !(it.keepAlive) }
     }
-
     private fun startGame(){
         CoroutineScope(Dispatchers.Main).launch{
             mediaPlayer?.start()
@@ -71,7 +75,6 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
             playing.postValue(false)
         }
     }
-
     private fun verifyCollisions() {
         enemies.forEach {enemy ->
             var positionPlayer = RectF()
@@ -93,18 +96,17 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
             }
             if(RectF.intersects(positionEnemy, positionPlayer)){
                 player.kill()
-                //TODO add explode with soundPool
+                playSound(explodeSound)
             }
             if(RectF.intersects(positionEnemy, positionTret)){
                 enemy.kill()
                 tret = null
                 enemyDown++
-                //TODO add explode with soundPool
+                playSound(explodeSound)
             }
         }
 
     }
-
     private fun draw(){
 
         if (holder.surface.isValid) {
@@ -136,16 +138,27 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
         }
         tret?.updateElement()
     }
-
     fun shot(){
         if (tretsMades < totalTrets) {
             tret = Tret(context,size.x, size.y, player.positionX, (size.y - player.height - 250f).toInt())
+            playSound(shotSound)
             tretsMades++
         } else {
             Toast.makeText(context,"Not enough munitions!", Toast.LENGTH_SHORT).show()
         }
     }
-
+    private fun createSoundPool(): SoundPool {
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+            .build()
+        return SoundPool.Builder()
+            .setMaxStreams(3)
+            .setAudioAttributes(audioAttributes).build()
+    }
+    private fun playSound(id: Int) {
+        soundPool.play(id, 1f, 1f, 0, 0, 1f)
+    }
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         if (event != null) {
             when(event.action){
@@ -161,7 +174,5 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
         }
         return true
     }
-
-
 
 }
