@@ -33,7 +33,7 @@ class ResultFragment : Fragment() {
         binding.menuBtn.setOnClickListener {
             findNavController().navigate(R.id.action_resultFragment_to_menuFragment)
         }
-        binding.scoreTv.text = viewModel.gameView.score.toString()
+        binding.scoreTv.text = String.format("%.2f", viewModel.gameView.score)
         binding.lostEnemiesTv.text = viewModel.gameView.lostEnemies.toString()
         binding.tretsMadeTv.text = viewModel.gameView.tretsMades.toString()
 
