@@ -14,13 +14,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.round
 
 class GameView(context: Context, private val size: Point) : SurfaceView(context) {
 
     var canvas: Canvas = Canvas()
     val paint: Paint = Paint()
-    var playing = MutableLiveData<Boolean>().apply { true }
+    var changeFragment = MutableLiveData<Boolean>().apply { true }
+    var playing = true
     val totalTrets = 20
     var tretsMades = 0
     var enemyDown = 0
@@ -62,17 +62,18 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
             mediaPlayer?.setOnCompletionListener {
                 mediaPlayer?.start()
             }
-            while(totalEnemies <= 10){
+            while(playing){
                 deleteEnemies()
                 addEnemies()
                 verifyCollisions()
                 draw()
                 update()
                 delay(10)
-                if (!player.keepAlive) break
+                if (totalEnemies >= 10) playing = false
+                if (!player.keepAlive) playing = false
             }
             score = enemyDown.toDouble() / (lostEnemies+1)
-            playing.postValue(false)
+            changeFragment.postValue(false)
         }
     }
     private fun verifyCollisions() {

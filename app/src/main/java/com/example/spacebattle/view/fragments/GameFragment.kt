@@ -78,15 +78,17 @@ class GameFragment : Fragment() {
         }
         exitButton.setOnClickListener {
             viewModel.stopMediaPlayer()
-            //TODO destroy viewModel.gameView
+            //TODO destroy viewModel.gameView. My be solved, verify with the sounds
             //viewModel.destroyGameView()
+            viewModel.gameView.playing = false
             findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
-        viewModel.gameView.playing.observe(viewLifecycleOwner){
+        viewModel.gameView.changeFragment.observe(viewLifecycleOwner){
             if (!it) {
                 viewModel.stopMediaPlayer()
-                //TODO destroy viewModel.gameView
+                //TODO destroy viewModel.gameView. My be solved, verify with the sounds
                 //viewModel.destroyGameView()
+                viewModel.gameView.playing = false
                 findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
             }
         }
