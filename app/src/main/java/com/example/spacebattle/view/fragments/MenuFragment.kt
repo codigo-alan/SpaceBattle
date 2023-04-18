@@ -5,17 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.spacebattle.R
 import com.example.spacebattle.databinding.FragmentMenuBinding
+import com.example.spacebattle.viewmodels.GameViewModel
 import com.example.spacebattle.viewmodels.MenuViewModel
 
 
-class MenuFragment : Fragment() {
+class MenuFragment : Fragment(), AdapterView.OnItemClickListener {
 
     private lateinit var binding: FragmentMenuBinding
-    private val viewModel: MenuViewModel by activityViewModels()
+    private val viewModel: GameViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,10 +32,23 @@ class MenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //Dropdown
+        val players = viewModel.getNames()
+        val adapter = ArrayAdapter(requireContext(), R.layout.dropdown_item,players)//array adapter to put later in autoCompleteTextView
+        with(binding.autoCompleteTextView){
+            setAdapter(adapter)
+            onItemClickListener = this@MenuFragment //this is the context in fragments maybe
+        }
+
         binding.startBtn.setOnClickListener {
             findNavController().navigate(R.id.action_menuFragment_to_gameFragment)
         }
 
+    }
+
+    override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+        val item = p0?.getItemAtPosition(p2).toString()
+        viewModel.setPlayerData(item)
     }
 
 }

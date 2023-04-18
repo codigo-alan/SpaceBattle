@@ -13,7 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.round
 
-class GameView(context: Context, private val size: Point) : SurfaceView(context) {
+class GameView(context: Context, private val size: Point, playerData: PlayerData) : SurfaceView(context) {
 
     var canvas: Canvas = Canvas()
     val paint: Paint = Paint()
@@ -24,7 +24,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     val lostEnemies get() = totalEnemies - enemyDown
     var score: Double = 0.0
     val enemies = mutableListOf<Enemy>()
-    val player = Player(context, size.x, size.y, R.drawable.player, 20, 15)
+    val player = Player(context, size.x, size.y, playerData.image, playerData.speed, playerData.shots)
     var tret : Tret? = null
 
     init {
