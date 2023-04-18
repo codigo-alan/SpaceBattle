@@ -5,15 +5,16 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.example.spacebattle.R
 
-class Player (context: Context, screenX: Int, screenY: Int, drawableImage: Int)  {
+class Player (val context: Context, screenX: Int, screenY: Int, drawableImage: Int,
+              var speed: Int, var shots: Int
+)  {
 
-    val playerContext = context
+    //val playerContext = context
     var bitmap: Bitmap = BitmapFactory.decodeResource(context.resources, drawableImage)
     val width = screenX / 10f
     val height = screenY / 10f
     var positionX = screenX / 2
     var positionY = screenY - height - 250f
-    var speed = 20
     var keepAlive = true
 
     init{
@@ -33,7 +34,7 @@ class Player (context: Context, screenX: Int, screenY: Int, drawableImage: Int) 
         keepAlive = false
     }
     private fun changeBitmap(drawableImage : Int){
-        bitmap = BitmapFactory.decodeResource(playerContext.resources, drawableImage)
+        bitmap = BitmapFactory.decodeResource(context.resources, drawableImage)
         bitmap = Bitmap.createScaledBitmap(bitmap, width.toInt(), height.toInt(),false)
     }
 

@@ -18,14 +18,13 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     var canvas: Canvas = Canvas()
     val paint: Paint = Paint()
     var playing = MutableLiveData<Boolean>().apply { true }
-    val totalTrets = 20
     var tretsMades = 0
     var enemyDown = 0
     var totalEnemies = 0
     val lostEnemies get() = totalEnemies - enemyDown
     var score: Double = 0.0
     val enemies = mutableListOf<Enemy>()
-    val player = Player(context, size.x, size.y, R.drawable.player)
+    val player = Player(context, size.x, size.y, R.drawable.player, 20, 15)
     var tret : Tret? = null
 
     init {
@@ -109,7 +108,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
             paint.textSize = 60f
             paint.textAlign = Paint.Align.LEFT
             canvas.drawText("Asserted: $enemyDown", 10f, 75f, paint)
-            canvas.drawText("Left shots: ${totalTrets - tretsMades}", 10f, 150f, paint)
+            canvas.drawText("Left shots: ${player.shots - tretsMades}", 10f, 150f, paint)
             //ENEMY
             enemies.forEach {enemy ->
                 canvas.drawBitmap(enemy.bitmap, enemy.positionX.toFloat(),enemy.positionY.toFloat(), null)
@@ -130,7 +129,7 @@ class GameView(context: Context, private val size: Point) : SurfaceView(context)
     }
 
     fun shot(){
-        if (tretsMades < totalTrets) {
+        if (tretsMades < player.shots) {
             tret = Tret(context,size.x, size.y, player.positionX, (size.y - player.height - 250f).toInt())
             tretsMades++
         } else {
