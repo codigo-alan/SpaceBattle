@@ -13,7 +13,6 @@ import android.widget.RelativeLayout
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.spacebattle.R
-import com.example.spacebattle.models.GameView
 import com.example.spacebattle.viewmodels.GameViewModel
 
 
@@ -78,10 +77,20 @@ class GameFragment : Fragment() {
             viewModel.gameView.shot()
         }
         exitButton.setOnClickListener {
+            viewModel.stopMediaPlayer()
+            //TODO destroy viewModel.gameView. My be solved, verify with the sounds
+            //viewModel.destroyGameView()
+            viewModel.gameView.playing = false
             findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
         }
-        viewModel.gameView.playing.observe(viewLifecycleOwner){
-            if (!it) findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+        viewModel.gameView.changeFragment.observe(viewLifecycleOwner){
+            if (!it) {
+                viewModel.stopMediaPlayer()
+                //TODO destroy viewModel.gameView. My be solved, verify with the sounds
+                //viewModel.destroyGameView()
+                viewModel.gameView.playing = false
+                findNavController().navigate(R.id.action_gameFragment_to_resultFragment)
+            }
         }
     }
 

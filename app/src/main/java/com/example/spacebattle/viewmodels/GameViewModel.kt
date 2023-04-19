@@ -47,4 +47,11 @@ class GameViewModel : ViewModel() {
     }
 
 
+    fun stopMediaPlayer(){
+        gameView.mediaPlayer?.stop()
+    }
+    fun destroyGameView(){
+        val gameViewSurface = gameView.holder.surface
+        gameViewSurface.release()
+    }
 }
