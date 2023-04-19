@@ -21,9 +21,9 @@ class GameViewModel : ViewModel() {
         PlayerData("Imperial Star Destroyer", R.drawable.player, 15, 45),
     )
 
-    init {
+    /*init {
         playerDataLiveData.value = PlayerData("Home One", R.drawable.player, 10, 15) //default playerData
-    }
+    }*/
 
     fun initializeGameView(requireContext: Context, size: Point) {
         gameView = GameView(requireContext, size, playerDataLiveData.value!!)

@@ -12,7 +12,7 @@
         android:id="@+id/start_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Inicia el juego"
+        android:text="Start battle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -37,5 +37,46 @@
             android:inputType="none"
             android:hint="Select your spacecraft" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/playerIv"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:src="@drawable/enemybabylon"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/dropdownCategory"
+        app:layout_constraintTop_toBottomOf="@+id/dropdownCategory" />
+
+    <TextView
+        android:id="@+id/speedTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Speed: 20"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="@+id/playerIv"
+        app:layout_constraintTop_toBottomOf="@+id/playerIv" />
+
+    <TextView
+        android:id="@+id/shotsTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shots: 10"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/speedTv"
+        app:layout_constraintTop_toBottomOf="@+id/speedTv" />
+
+    <ImageView
+        android:id="@+id/yodaIv"
+        android:layout_width="128dp"
+        android:layout_height="256dp"
+        android:visibility="gone"
+        android:src="@drawable/yoda_star_wars"
+        app:layout_constraintBottom_toBottomOf="@+id/shotsTv"
+        app:layout_constraintEnd_toEndOf="@+id/dropdownCategory" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

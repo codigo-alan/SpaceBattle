@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.spacebattle.R
@@ -40,8 +41,32 @@ class MenuFragment : Fragment(), AdapterView.OnItemClickListener {
             onItemClickListener = this@MenuFragment //this is the context in fragments maybe
         }
 
+        //observe playerData
+        viewModel.playerDataLiveData.observe(viewLifecycleOwner){
+            if (it == null) {
+                binding.playerIv.visibility = View.GONE
+                binding.speedTv.visibility = View.GONE
+                binding.shotsTv.visibility = View.GONE
+                binding.yodaIv.visibility = View.GONE
+            }else{
+                binding.playerIv.visibility = View.VISIBLE
+                binding.speedTv.visibility = View.VISIBLE
+                binding.shotsTv.visibility = View.VISIBLE
+                binding.yodaIv.visibility = View.VISIBLE
+                binding.playerIv.setImageResource(it.image)
+                binding.speedTv.text = "Speed: ${it.speed}"
+                binding.shotsTv.text = "Shots: ${it.shots}"
+            }
+
+        }
+
+        //Start button
         binding.startBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_menuFragment_to_gameFragment)
+            if (viewModel.playerDataLiveData.value == null) {
+                Toast.makeText(context, "Select your player", Toast.LENGTH_SHORT).show()
+            }else{
+                findNavController().navigate(R.id.action_menuFragment_to_gameFragment)
+            }
         }
 
     }
