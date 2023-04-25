@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/material_dynamic_neutral30"
     android:padding="16dp"
     tools:context=".view.fragments.MenuFragment">
 
@@ -25,6 +26,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="16dp"
+        android:background="@color/material_dynamic_neutral50"
+        android:textColorHint="@color/yellow"
         app:startIconDrawable="@drawable/baseline_rocket_launch_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,6 +38,10 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:inputType="none"
+            android:background="@color/material_dynamic_neutral50"
+            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-smallcaps"
             android:hint="Select your spacecraft" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,7 +61,10 @@
         android:layout_height="wrap_content"
         android:text="Speed: 20"
         android:visibility="gone"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@color/yellow"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="@+id/playerIv"
         app:layout_constraintTop_toBottomOf="@+id/playerIv" />
@@ -66,7 +76,10 @@
         android:text="Shots: 10"
         android:layout_marginTop="32dp"
         android:visibility="gone"
+        android:fontFamily="sans-serif-smallcaps"
+        android:textColor="@color/yellow"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/speedTv"
         app:layout_constraintTop_toBottomOf="@+id/speedTv" />
 
