@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:textAppearance="?attr/textAppearanceSubtitle1"
     android:padding="16dp"
-    android:background="@color/material_dynamic_neutral50"
+    android:background="@color/dimgrey"
     android:textColor="@color/yellow"
     android:textStyle="bold"
     android:fontFamily="sans-serif-smallcaps"
